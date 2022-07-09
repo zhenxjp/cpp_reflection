@@ -1,6 +1,5 @@
 #pragma once
-
-#include <any>
+#include "value.hpp"
 #include <vector>
 using namespace std;
 
@@ -8,25 +7,25 @@ class args {
 public:
 	template <typename... V>
 	args(V&&... arg_list)
-		: args(std::initializer_list<any>({ std::forward<V>(arg_list)... }))
+		: args(std::initializer_list<value>({ std::forward<V>(arg_list)... }))
 	{
 	}
 
-	args(std::initializer_list<any> il)
+	args(std::initializer_list<value> il)
 	{
 		args_ = il;
 	}
 
-	const any& operator [] (size_t index) const
+	const value& operator [] (size_t index) const
 	{
 		return args_[index];
 	}
 
-	std::vector<any> args_; // List of the values
+	std::vector<value> args_; // List of the values
 };
 
 template <typename T>
 static  T convert_arg(const args& args, size_t index)
 {
-	return std::any_cast<T>(args[index]);
+	return args[index].to<T>();
 }

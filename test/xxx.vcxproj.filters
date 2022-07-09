@@ -20,6 +20,9 @@
     </ClInclude>
     <ClInclude Include="test_class.hpp" />
     <ClInclude Include="cpp_now.hpp" />
+    <ClInclude Include="..\include\value.hpp">
+      <Filter>reflect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="xxx.cpp" />

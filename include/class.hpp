@@ -2,6 +2,7 @@
 #include "proper.hpp"
 #include "args.hpp"
 #include "construct.hpp"
+#include <map>
 using namespace std;
 
 class cls;
@@ -13,10 +14,11 @@ public:
         return (C*)real_;
     }
 
+    value get(const char* name);
+    bool set(const char* name, value val);
+
     void* real_ = nullptr;
     cls* cls_ = nullptr;
-    
-
 };
 
 class cls
@@ -55,25 +57,7 @@ public:
         else
             return it->second;
     }
-public:
-    any get(obj* obj, const char* name)
-    {
-        proper* pro = get_pro(name);
-        if (nullptr != pro)
-            return pro->get(obj->real_);
-        else
-            return any();
-    }
 
-    bool set(obj* obj, const char* name, any val)
-    {
-        proper* pro = get_pro(name);
-        if (nullptr == pro)
-            return false;
-
-        pro->set(obj->real_, val);
-        return true;
-    }
 public:
     map<string, proper*>   pros_;
     construct* con_ = nullptr;
@@ -103,3 +87,21 @@ static cls_mgr g_cls_mgr;
 
 
 
+value obj::get(const char* name)
+{
+    proper* pro = cls_->get_pro(name);
+    if (nullptr != pro)
+        return pro->get(real_);
+    else
+        return value();
+}
+
+bool obj::set(const char* name, value val)
+{
+    proper* pro = cls_->get_pro(name);
+    if (nullptr == pro)
+        return false;
+
+    pro->set(real_, val);
+    return true;
+}

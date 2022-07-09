@@ -40,19 +40,20 @@ static void test_proper()
     obj xx = c->create(110, 119, string("jqka"));
 
     {
-        auto xx1 = std::any_cast<int>(c->get(&xx, "xx1"));
-        auto xx2 = std::any_cast<int>(c->get(&xx, "xx2"));
-        auto xx3 = std::any_cast<string>(c->get(&xx, "xx3"));
+        auto xx1 = xx.get("xx1").to<int>();
+        auto xx2 = xx.get("xx2").to<int>();
+        auto xx3 = xx.get("xx3").to<string>();
+
         printf("reflect get1 xx1=%d,xx2=%d,xx3=%s\n", xx1, xx2, xx3.c_str());
     }
+    xx.set("xx1", 1000);
+    xx.set("xx2", 2000);
+    xx.set("xx3", string("2222"));
 
-    c->set(&xx, "xx1", 1000);
-    c->set(&xx, "xx2", 2000);
-    c->set(&xx, "xx3", string("2222"));
     {
-        auto xx1 = std::any_cast<int>(c->get(&xx, "xx1"));
-        auto xx2 = std::any_cast<int>(c->get(&xx, "xx2"));
-        auto xx3 = std::any_cast<string>(c->get(&xx, "xx3"));
+        auto xx1 = xx.get("xx1").to<int>();
+        auto xx2 = xx.get("xx2").to<int>();
+        auto xx3 = xx.get("xx3").to<string>();
         printf("reflect get2 xx1=%d,xx2=%d,xx3=%s\n", xx1, xx2, xx3.c_str());
     }
 }

@@ -1,17 +1,14 @@
 #pragma once
 
-#include <iostream>
-#include <sstream>
-#include <map>
-#include <any>
-#include <typeindex>
+#include "value.hpp"
+#include <string>
 using namespace std;
 
 class proper
 {
 public:
     virtual any get(void* c) = 0;
-    virtual void set(void* c, any val) = 0;
+    virtual void set(void* c, value val) = 0;
     string name_;
 };
 
@@ -26,9 +23,9 @@ public:
         return ret;
     }
 
-    virtual void set(void* c, any val) {
+    virtual void set(void* c, value val) {
         C& real = *((C*)c);
-        real.*pro_ = std::any_cast<F>(val);
+        real.*pro_ = val.to<F>();
     }
 public:
     F C::* pro_;

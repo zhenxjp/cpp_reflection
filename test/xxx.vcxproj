@@ -141,7 +141,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>.\x64\release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -152,6 +152,7 @@
     <ClInclude Include="..\include\class.hpp" />
     <ClInclude Include="..\include\construct.hpp" />
     <ClInclude Include="..\include\proper.hpp" />
+    <ClInclude Include="..\include\value.hpp" />
     <ClInclude Include="cpp_now.hpp" />
     <ClInclude Include="test_class.hpp" />
   </ItemGroup>
