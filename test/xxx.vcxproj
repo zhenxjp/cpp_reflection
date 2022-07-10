@@ -133,7 +133,7 @@
       <ConformanceMode>true</ConformanceMode>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,6 +151,7 @@
     <ClInclude Include="..\include\args.hpp" />
     <ClInclude Include="..\include\class.hpp" />
     <ClInclude Include="..\include\construct.hpp" />
+    <ClInclude Include="..\include\method.hpp" />
     <ClInclude Include="..\include\proper.hpp" />
     <ClInclude Include="..\include\value.hpp" />
     <ClInclude Include="cpp_now.hpp" />

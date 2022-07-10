@@ -28,6 +28,7 @@ void test1()
 
 int main(int argc, char** argv)
 {
+    test_cpp_now();
     test_test();
 
     return 0;

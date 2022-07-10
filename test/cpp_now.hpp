@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <type_traits>
+#include "method.hpp"
 using namespace std;
 
 // 获取类型信息
@@ -105,8 +106,19 @@ void test_what()
 	construct* c = new construct_impl<XXXXXX,int,int>();
 	c->create(1,2);
 }
+
+void test_method()
+{
+	XXXXXX xx(10, 20);
+
+	method* m = new method_impl<XXXXXX,int,decltype(&XXXXXX::f),int>(&XXXXXX::f);
+
+	int ret = m->call(&xx, 1000).to<int>();
+}
+
 void test_cpp_now()
 {
+	test_method();
 	test_func();
 	test_what();
 	test_any();
