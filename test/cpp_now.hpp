@@ -85,6 +85,11 @@ public:
 		return xx1 + xx2 + val;
 	}
 
+	string get_str(const char* p)
+	{
+		return xx3 + p;
+	}
+
 	int xx1;
 	int xx2;
 
@@ -109,11 +114,21 @@ void test_what()
 
 void test_method()
 {
-	XXXXXX xx(10, 20);
 
-	method* m = new method_impl<XXXXXX,int,decltype(&XXXXXX::f),int>(&XXXXXX::f);
+	{
+		XXXXXX xx(10, 20);
 
-	int ret = m->call(&xx, 1000).to<int>();
+		method* m = new method_impl(&XXXXXX::f);
+		int ret = m->call(&xx, 1000).to<int>();
+	}
+	{
+		XXXXXX xx(10, 20);
+
+		xx.xx3 = "1111";
+		method* m = new method_impl(&XXXXXX::get_str);
+		string  ret = m->call(&xx, "ccc").to<string>();
+	}
+
 }
 
 void test_cpp_now()

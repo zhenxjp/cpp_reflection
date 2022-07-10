@@ -5,6 +5,11 @@
 #include <map>
 using namespace std;
 
+
+
+
+
+
 class cls;
 class obj
 {
