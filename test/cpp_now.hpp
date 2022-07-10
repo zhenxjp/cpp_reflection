@@ -78,13 +78,24 @@ public:
 		xx1 = a1;
 		xx2 = a2;
 	}
+
+	int f(int val)
+	{
+		return xx1 + xx2 + val;
+	}
+
 	int xx1;
 	int xx2;
 
 	std::string xx3;
 };
 
-
+void test_func()
+{
+	XXXXXX xx(10, 20);
+	auto func = &XXXXXX::f;
+	(xx.*func)(100);
+}
 
 
 #include "construct.hpp"
@@ -96,6 +107,7 @@ void test_what()
 }
 void test_cpp_now()
 {
+	test_func();
 	test_what();
 	test_any();
 	get_arg_cnt(1, "ccc", string("ccc"));
