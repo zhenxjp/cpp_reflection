@@ -112,7 +112,7 @@ void test_what()
 	c->create(1,2);
 }
 
-void test_method()
+void test_method2()
 {
 
 	{
@@ -133,7 +133,7 @@ void test_method()
 
 void test_cpp_now()
 {
-	test_method();
+	test_method2();
 	test_func();
 	test_what();
 	test_any();

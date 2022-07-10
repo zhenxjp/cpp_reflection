@@ -1,5 +1,6 @@
 #pragma once
 #include "class.hpp"
+#include <sstream>
 using namespace std;
 
 
@@ -18,6 +19,21 @@ public:
     {
         printf("XXX xx1=%d,xx2=%d,xx3=%s\n", xx1, xx2, xx3.c_str());
     }
+
+    string get_state(const char* p, int val)
+    {
+        stringstream ss;
+        ss << "xx1=" << xx1 << ",";
+        ss << "xx2=" << xx2 << ",";
+        ss << "xx3=" << xx3 << ",";
+        ss << "p=" << p << ",";
+        ss << "val=" << val << ",";
+
+        return ss.str();
+    }
+
+
+
     int xx1;
     int xx2;
 
@@ -31,6 +47,8 @@ static void reg()
         .add_pro("xx2", &XXX::xx2)
         .add_pro("xx3", &XXX::xx3)
         .add_con<XXX,int,int,string>()
+        .add_method("show", &XXX::show)
+        .add_method("get_state", &XXX::get_state)
         ;
 }
 
@@ -80,13 +98,21 @@ static void test_get_all_proper()
     }
 }
 
+static void test_method()
+{
+    cls* c = g_cls_mgr.get_class("XXX");
+    obj o = c->create(111, 222, string("xxx"));
+    o.call("show");
+
+    string ret = o.call("get_state", "ppp", 777).to<string>();
+}
 static void test_test()
 {
     reg();
     test_create();
     test_proper();
     test_get_all_proper();
-    
+    test_method();
 }
 
 

@@ -1,14 +1,10 @@
 #pragma once
 #include "proper.hpp"
+#include "method.hpp"
 #include "args.hpp"
 #include "construct.hpp"
 #include <map>
 using namespace std;
-
-
-
-
-
 
 class cls;
 class obj
@@ -21,6 +17,9 @@ public:
 
     value get(const char* name);
     bool set(const char* name, value val);
+
+    template <typename... A>
+    value call(const char* name, A&&... arg);
 
     void* real_ = nullptr;
     cls* cls_ = nullptr;
@@ -39,6 +38,14 @@ public:
         return *this;
     }
 
+    template <typename M>
+    cls& add_method(const char* name, M method)
+    {
+        auto method_ptr = new method_impl(method);
+        methods_[name] = method_ptr;
+        return *this;
+    }
+
     template <class C, typename... A>
     cls& add_con()
     {
@@ -53,18 +60,10 @@ public:
         obj ret{ real,this };
         return ret;
     }
-public:
-    proper* get_pro(const char* name)
-    {
-        auto it = pros_.find(name);
-        if (pros_.end() == it)
-            return nullptr;
-        else
-            return it->second;
-    }
 
 public:
     map<string, proper*>   pros_;
+    map<string, method*>   methods_;
     construct* con_ = nullptr;
 };
 
@@ -94,19 +93,20 @@ static cls_mgr g_cls_mgr;
 
 value obj::get(const char* name)
 {
-    proper* pro = cls_->get_pro(name);
-    if (nullptr != pro)
-        return pro->get(real_);
-    else
-        return value();
+    proper* pro = cls_->pros_[name];
+    return pro->get(real_);
 }
 
 bool obj::set(const char* name, value val)
 {
-    proper* pro = cls_->get_pro(name);
-    if (nullptr == pro)
-        return false;
+    proper* pro = cls_->pros_[name];
 
     pro->set(real_, val);
     return true;
+}
+
+template <typename... A>
+value obj::call(const char* name, A&&... arg) {
+    auto m = cls_->methods_[name];
+    return m->call(real_,arg...);
 }

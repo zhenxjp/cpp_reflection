@@ -10,12 +10,7 @@ struct FunctionDetails {};
 template <typename R, typename C, typename... A>
 struct FunctionDetails<R(C::*)(A...)>
 {
-	
 	typedef R ReturnType;
-	typedef ReturnType(*FuncType)(A...);
-	typedef ReturnType(DispatchType)(A...);
-	typedef std::tuple<A...> FunctionCallTypes;
-
 	typedef C ClsType;
 	typedef std::tuple<A...> ParamTypes;
 
@@ -60,16 +55,21 @@ public:
 	virtual value call_ex(void* real, args arg)
 	{
 		auto* c = (ClsType*)real;
-
 		return call_impl(c, arg, std::make_index_sequence<FucInfo::ArgCnt>());
 	}
 
 	template <size_t... Is>
 	value call_impl(ClsType* c,const args& args, std::index_sequence<Is...>)
 	{
-		//value ret = ((*c).*func_)(   convert_arg<A>(args, Is)...);
-		value ret = ((*c).*func_)(args[Is].to< typename FucInfo::template args<Is>::type >()...);
-		return value(ret);
+		if constexpr  (std::is_void_v<FucInfo::ReturnType>)
+		{
+			((*c).*func_)(args[Is].to< typename FucInfo::template args<Is>::type >()...);
+			return value();
+		}
+		else {
+			value ret = ((*c).*func_)(args[Is].to< typename FucInfo::template args<Is>::type >()...);
+			return value(ret);
+		}
 	}
 
 	F func_;
