@@ -70,7 +70,6 @@ public:
 class cls_mgr
 {
 public:
-    template<class C>
     cls& create(const char* name) {
         auto* c = new cls();
         cls_map_[name] = c;

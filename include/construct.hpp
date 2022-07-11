@@ -28,6 +28,7 @@ public:
 	template <size_t... Is>
 	void* create_impl(const args& args, std::index_sequence<Is...>)
 	{
-		return new C(convert_arg<A>(args, Is)...);
+		//return new C(convert_arg<A>(args, Is)...);
+		return new C(args.to<A>(Is)...);
 	}
 };

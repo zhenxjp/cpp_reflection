@@ -21,11 +21,11 @@ public:
 		return args_[index];
 	}
 
+	template <typename T>
+	T to(size_t index)const
+	{
+		return args_[index].to<T>();
+	}
+
 	std::vector<value> args_; // List of the values
 };
-
-template <typename T>
-static  T convert_arg(const args& args, size_t index)
-{
-	return args[index].to<T>();
-}
