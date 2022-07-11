@@ -40,7 +40,7 @@ public:
 
 static void reg()
 {
-    g_cls_mgr.create<XXX>("XXX")                    // 注册类
+    g_cls_mgr.create("XXX")                    // 注册类
         .add_pro("xx1", &XXX::xx1)                  // 注册类成员1
         .add_pro("xx2", &XXX::xx2)                  // 注册类成员2
         .add_pro("xx3", &XXX::xx3)                  // 注册类成员3
@@ -52,21 +52,25 @@ static void reg()
 
 static void test_proper()
 {
+    // 创建
     cls* c = g_cls_mgr.get_class("XXX");
     obj xx = c->create(110, 119, string("jqka"));
 
     {
+        // 获取
         auto xx1 = xx.get("xx1").to<int>();
         auto xx2 = xx.get("xx2").to<int>();
         auto xx3 = xx.get("xx3").to<string>();
 
         printf("reflect get1 xx1=%d,xx2=%d,xx3=%s\n", xx1, xx2, xx3.c_str());
     }
+    // 设置
     xx.set("xx1", 1000);
     xx.set("xx2", 2000);
     xx.set("xx3", string("2222"));
 
     {
+        // 再次获取
         auto xx1 = xx.get("xx1").to<int>();
         auto xx2 = xx.get("xx2").to<int>();
         auto xx3 = xx.get("xx3").to<string>();
@@ -78,30 +82,36 @@ static void test_create()
 {
     cls* c = g_cls_mgr.get_class("XXX");            // 找到class的元信息
     obj o = c->create(110, 119, string("jqka"));    // 创建
-    o.to<XXX>()->show();
+    o.to<XXX>()->show();                            // to 转化为实际类型
 }
 
 static void test_get_all_proper()
 {
-    cls* c = g_cls_mgr.get_class("XXX");
-    obj o = c->create(1, 2, string("x"));
+    // 创建对象
+    XXX x(111, 222, "xxx");
 
+    // 找到class的元信息
+    cls* c = g_cls_mgr.get_class("XXX");
+
+    // 遍历属性
     for (auto pro : c->pros_)
     {
         proper* p = pro.second;
-        string pro_name = p->name_;
-        any val = p->get(&o);
-        printf("key=%s,", pro_name.c_str());
-        printf("val=%s\n", p->get_str(o.real_).c_str());
+        printf("key=%s,", p->name_.c_str());
+        printf("val=%s\n", p->get_str(&x).c_str());
     }
 }
 
 static void test_method()
 {
+    // 创建对象
     cls* c = g_cls_mgr.get_class("XXX");
     obj o = c->create(111, 222, string("xxx"));
+
+    // 调用show，返回值void
     o.call("show");
 
+    // 调用get_state，返回值string
     string ret = o.call("get_state", "ppp", 777).to<string>();
 }
 static void test_test()

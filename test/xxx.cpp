@@ -9,19 +9,13 @@ using namespace std;
 
 void test1()
 {
-    using XXX_property = int XXX::*;
-    XXX_property pro_xx1 = &XXX::xx1;
-    XXX_property pro_xx2 = &XXX::xx2;
-
     XXX xxx{ 111,222,"xxx" };
-    int xx1 = xxx.*pro_xx1;
-    int xx2 = xxx.*pro_xx2;
 
-    xxx.*pro_xx1 = 888;
-    xxx.*pro_xx2 = 999;
+    int XXX::* xx1_pro = &XXX::xx1;// 关键的
 
-    xx1 = xxx.*pro_xx1;
-    xx2 = xxx.*pro_xx2;
+    printf("xx1=%d\n", xxx.*xx1_pro);
+    xxx.*xx1_pro = 888;
+    printf("xx1=%d\n", xxx.*xx1_pro);
 }
 
 
