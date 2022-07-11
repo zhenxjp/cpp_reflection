@@ -28,6 +28,7 @@ public:
 class cls
 {
 public:
+    // 注册类成员
     template <class C, typename F>
     cls& add_pro(const char* name,F C::* pro)
     {
@@ -38,6 +39,7 @@ public:
         return *this;
     }
 
+    // 注册类方法
     template <typename M>
     cls& add_method(const char* name, M method)
     {
@@ -46,6 +48,7 @@ public:
         return *this;
     }
 
+    // 注册构造函数
     template <class C, typename... A>
     cls& add_con()
     {
@@ -53,6 +56,7 @@ public:
         return *this;
     }
 public:
+    // 创建实例对象
     template <typename... A>
     obj create(A... arg)
     {

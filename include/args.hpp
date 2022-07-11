@@ -16,11 +16,6 @@ public:
 		args_ = il;
 	}
 
-	const value& operator [] (size_t index) const
-	{
-		return args_[index];
-	}
-
 	template <typename T>
 	T to(size_t index)const
 	{

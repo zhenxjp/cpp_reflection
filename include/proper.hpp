@@ -8,9 +8,15 @@ using namespace std;
 class proper
 {
 public:
+    // c:对象指针
     virtual value get(void* c) = 0;
+
+    // c:对象指针
     virtual void set(void* c, value val) = 0;
+
+    // c:对象指针
     virtual string get_str(void* c) = 0;
+
     string name_;
 };
 

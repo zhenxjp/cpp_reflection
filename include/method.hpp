@@ -35,11 +35,9 @@ public:
 	{
 		return call_ex(real,args(arg...));
 	}
-
+private:
 	virtual value call_ex(void* real, args arg) = 0;
 };
-
-
 
 template <typename F>
 class method_impl :public method
@@ -48,29 +46,32 @@ public:
 	typedef FunctionDetails<F> FucInfo;
 	typedef FucInfo::ClsType ClsType;
 
-	method_impl(F func)
-	{
-		func_ = func;
-	}
+	method_impl(F func):func_(func){}
+private:
 	virtual value call_ex(void* real, args arg)
 	{
-		auto* c = (ClsType*)real;
-		return call_impl(c, arg, std::make_index_sequence<FucInfo::ArgCnt>());
+		return call_impl((ClsType*)real, arg, std::make_index_sequence<FucInfo::ArgCnt>());
 	}
 
 	template <size_t... Is>
 	value call_impl(ClsType* c,const args& args, std::index_sequence<Is...>)
 	{
+		// 萃取参数类型
+#define ARG(idx)	typename FucInfo::template args<idx>::type
+
+		ClsType& obj = *c;
 		if constexpr  (std::is_void_v<FucInfo::ReturnType>)
 		{
-			((*c).*func_)(args[Is].to< typename FucInfo::template args<Is>::type >()...);
+			// for return void
+			(obj.*func_)(args.to<ARG(Is)>(Is)...);
 			return value();
 		}
 		else {
-			value ret = ((*c).*func_)(args[Is].to< typename FucInfo::template args<Is>::type >()...);
+			// for return no void
+			value ret = (obj.*func_)(args.to<ARG(Is)>(Is)...);
 			return value(ret);
 		}
 	}
 
-	F func_;
+	F func_ = nullptr;
 };
