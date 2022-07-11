@@ -2,13 +2,15 @@
 
 #include "value.hpp"
 #include <string>
+#include <sstream>
 using namespace std;
 
 class proper
 {
 public:
-    virtual any get(void* c) = 0;
+    virtual value get(void* c) = 0;
     virtual void set(void* c, value val) = 0;
+    virtual string get_str(void* c) = 0;
     string name_;
 };
 
@@ -16,10 +18,16 @@ template <class C, typename F>
 class proper_impl : public proper
 {
 public:
-    virtual any get(void* c)
+    virtual string get_str(void* c)
+    {
+        stringstream ss;
+        ss << get(c).to<F>();
+        return ss.str();
+    }
+    virtual value get(void* c)
     {
         C& real = *((C*)c);
-        any ret = real.*pro_;
+        value ret = real.*pro_;
         return ret;
     }
 

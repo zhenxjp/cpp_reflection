@@ -1,6 +1,7 @@
 #pragma once
 
 #include <any>
+#include <string>
 using namespace std;
 
 class value
@@ -19,6 +20,7 @@ public:
 	{
 		return std::any_cast<T>(val_);
 	}
+
 public:
 	any val_;
 };

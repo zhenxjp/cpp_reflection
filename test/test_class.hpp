@@ -15,11 +15,11 @@ public:
         xx2 = a2;
         xx3 = a3;
     }
+
     void show()
     {
         printf("XXX xx1=%d,xx2=%d,xx3=%s\n", xx1, xx2, xx3.c_str());
     }
-
     string get_state(const char* p, int val)
     {
         stringstream ss;
@@ -32,8 +32,6 @@ public:
         return ss.str();
     }
 
-
-
     int xx1;
     int xx2;
 
@@ -42,13 +40,13 @@ public:
 
 static void reg()
 {
-    g_cls_mgr.create<XXX>("XXX")
-        .add_pro("xx1", &XXX::xx1)
-        .add_pro("xx2", &XXX::xx2)
-        .add_pro("xx3", &XXX::xx3)
-        .add_con<XXX,int,int,string>()
-        .add_method("show", &XXX::show)
-        .add_method("get_state", &XXX::get_state)
+    g_cls_mgr.create<XXX>("XXX")                    // 注册类
+        .add_pro("xx1", &XXX::xx1)                  // 注册类成员1
+        .add_pro("xx2", &XXX::xx2)                  // 注册类成员2
+        .add_pro("xx3", &XXX::xx3)                  // 注册类成员3
+        .add_con<XXX,int,int,string>()              // 注册构造函数
+        .add_method("show", &XXX::show)             // 注册类方法1
+        .add_method("get_state", &XXX::get_state)   // 注册类方法2
         ;
 }
 
@@ -78,8 +76,8 @@ static void test_proper()
 
 static void test_create()
 {
-    cls* c = g_cls_mgr.get_class("XXX");
-    obj o = c->create(110, 119, string("jqka"));
+    cls* c = g_cls_mgr.get_class("XXX");            // 找到class的元信息
+    obj o = c->create(110, 119, string("jqka"));    // 创建
     o.to<XXX>()->show();
 }
 
@@ -94,7 +92,7 @@ static void test_get_all_proper()
         string pro_name = p->name_;
         any val = p->get(&o);
         printf("key=%s,", pro_name.c_str());
-        printf("type=%s\n", val.type().raw_name());
+        printf("val=%s\n", p->get_str(o.real_).c_str());
     }
 }
 
