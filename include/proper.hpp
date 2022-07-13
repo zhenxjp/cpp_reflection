@@ -27,7 +27,7 @@ public:
     virtual string get_str(void* c)
     {
         stringstream ss;
-        ss << get(c).to<F>();
+        ss << get(c).template to<F>();
         return ss.str();
     }
     virtual value get(void* c)
@@ -39,7 +39,7 @@ public:
 
     virtual void set(void* c, value val) {
         C& real = *((C*)c);
-        real.*pro_ = val.to<F>();
+        real.*pro_ = val.template to<F>();
     }
 public:
     F C::* pro_;
