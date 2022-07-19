@@ -112,28 +112,11 @@ void test_what()
 	c->create(1,2);
 }
 
-void test_method2()
-{
 
-	{
-		XXXXXX xx(10, 20);
-
-		method* m = new method_impl(&XXXXXX::f);
-		int ret = m->call(&xx, 1000).to<int>();
-	}
-	{
-		XXXXXX xx(10, 20);
-
-		xx.xx3 = "1111";
-		method* m = new method_impl(&XXXXXX::get_str);
-		string  ret = m->call(&xx, "ccc").to<string>();
-	}
-
-}
 
 void test_cpp_now()
 {
-	test_method2();
+	//test_method2();
 	test_func();
 	test_what();
 	test_any();

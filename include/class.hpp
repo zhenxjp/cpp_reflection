@@ -43,7 +43,7 @@ public:
     template <typename M>
     cls& add_method(const char* name, M method)
     {
-        auto method_ptr = new method_impl(method);
+        auto method_ptr = new method_impl<FunctionDetails<M>,M>(method);
         methods_[name] = method_ptr;
         return *this;
     }

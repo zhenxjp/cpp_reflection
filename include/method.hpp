@@ -39,12 +39,12 @@ private:
 	virtual value call_ex(void* real, args arg) = 0;
 };
 
-template <typename F>
+template <class FucInfo,typename F>
 class method_impl :public method
 {
 public:
-	typedef FunctionDetails<F> FucInfo;
-	typedef FucInfo::ClsType ClsType;
+	typedef typename FucInfo::ClsType ClsType;
+	typedef typename FucInfo::ReturnType RetType;
 
 	method_impl(F func):func_(func){}
 private:
@@ -60,7 +60,7 @@ private:
 #define ARG(idx)	typename FucInfo::template args<idx>::type
 
 		ClsType& obj = *c;
-		if constexpr  (std::is_void_v<FucInfo::ReturnType>)
+		if constexpr  (std::is_void_v<RetType>)
 		{
 			// for return void
 			(obj.*func_)(args.to<ARG(Is)>(Is)...);
