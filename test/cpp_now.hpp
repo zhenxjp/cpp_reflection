@@ -6,7 +6,7 @@ using namespace std;
 
 // 获取类型信息
 template <class T>
-static void test_typeid(const T &t)
+static void test_typeid(const T& t)
 {
 	const type_info& type = typeid(t);
 	printf("name=%s\n", type.name());
@@ -74,7 +74,7 @@ public:
 	{
 		printf("xxx");
 	}
-	XXXXXX(int a1,int a2)
+	XXXXXX(int a1, int a2)
 	{
 		xx1 = a1;
 		xx2 = a2;
@@ -108,20 +108,82 @@ void test_func()
 
 void test_what()
 {
-	construct* c = new construct_impl<XXXXXX,int,int>();
-	c->create(1,2);
+	construct* c = new construct_impl<XXXXXX, int, int>();
+	c->create(1, 2);
 }
 
+#include "v_func.hpp"
+void test_virtual_func()
+{
+	class A
+	{
+	public:
+		virtual void f0() { cout << __FUNCTION__; }
+		virtual void f1() { cout << __FUNCTION__; }
+		virtual void f2() { cout << __FUNCTION__; }
+		virtual void f3() { cout << __FUNCTION__; }
+		virtual void f4() { cout << __FUNCTION__; }
+		virtual void f5() { cout << __FUNCTION__; }
+		virtual void f6() { cout << __FUNCTION__; }
+		virtual void f7() { cout << __FUNCTION__; }
+		virtual void f8() { cout << __FUNCTION__; }
+		virtual void f9() { cout << __FUNCTION__; }
+		virtual void f10() { cout << __FUNCTION__; }
+		virtual void f11() { cout << __FUNCTION__; }
+		virtual void f12() { cout << __FUNCTION__; }
+		virtual void f13() { cout << __FUNCTION__; }
+		virtual void f14() { cout << __FUNCTION__; }
+		virtual void f15() { cout << __FUNCTION__; }
+		virtual void f16() { cout << __FUNCTION__; }
+		virtual void f17() { cout << __FUNCTION__; }
 
+		int a = 0;
+	};
+
+	class B :public A
+	{
+	public:
+		virtual void f0() { cout << __FUNCTION__; }
+		virtual void f1() { cout << __FUNCTION__; }
+		virtual void f17() { cout << __FUNCTION__; }
+
+		int b = 10;
+	};
+
+	auto a_f0 = &A::f0;
+	auto a_f1 = &A::f1;
+	auto a_f17 = &A::f17;
+
+	auto b_f0 = &B::f0;
+	auto b_f1 = &B::f1;
+	auto b_f17 = &B::f17;
+
+
+	A* p = new B;
+	p->f0();
+	p->f1();
+	p->f17();
+
+	auto f2_bb = get_vfunc(p, 0);
+
+	cout << endl;
+	cout << "&B::f0 idx=" << get_vfunc_idx(&B::f0) << endl;
+	cout << "&B::f1 idx=" << get_vfunc_idx(&B::f1) << endl;
+	cout << "&B::f17 idx=" << get_vfunc_idx(&B::f17)<<endl;
+
+	auto B_f17 = get_real_vfunc(&B::f17);
+	auto temp = get_vfunc(p, 17);
+}
 
 void test_cpp_now()
 {
+	test_virtual_func();
 	//test_method2();
 	test_func();
 	test_what();
 	test_any();
 	get_arg_cnt(1, "ccc", string("ccc"));
-	get_arg_cnt2(1,"ccc",string("ccc"));
+	get_arg_cnt2(1, "ccc", string("ccc"));
 
 	test_simple();
 	test_Derived();

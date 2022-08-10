@@ -151,9 +151,11 @@
     <ClInclude Include="..\include\args.hpp" />
     <ClInclude Include="..\include\class.hpp" />
     <ClInclude Include="..\include\construct.hpp" />
+    <ClInclude Include="..\include\func_trait.hpp" />
     <ClInclude Include="..\include\method.hpp" />
     <ClInclude Include="..\include\proper.hpp" />
     <ClInclude Include="..\include\value.hpp" />
+    <ClInclude Include="..\include\v_func.hpp" />
     <ClInclude Include="cpp_now.hpp" />
     <ClInclude Include="test_class.hpp" />
   </ItemGroup>

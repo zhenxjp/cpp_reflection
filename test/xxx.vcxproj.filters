@@ -26,6 +26,12 @@
     <ClInclude Include="..\include\method.hpp">
       <Filter>reflect</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\v_func.hpp">
+      <Filter>reflect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\func_trait.hpp">
+      <Filter>reflect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="xxx.cpp" />
